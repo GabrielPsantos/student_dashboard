@@ -1,0 +1,327 @@
+{
+	"variables": [],
+	"info": {
+		"name": "student_dashboard",
+		"_postman_id": "73614435-1976-9492-0979-2d0c140d5b83",
+		"description": "API para permitir a compra de créditos telefônicos onde o usuário, após informar o número à ser recarregado a compra será efetuada.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"description": "Endpoints de Autenticação",
+			"item": [
+				{
+					"name": "http://localhost:5000/signin",
+					"request": {
+						"url": "http://localhost:5000/signin",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"mail@mail.com\",\n\t\"username\": \"gabrielson\",\n\t\"password\": \"senha123\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:5000/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (responseCode.code >= 200 && responseCode.code <= 209){",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    postman.setEnvironmentVariable('token', jsonData.acess_token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"mail@mail.com\",\n\t\"username\": \"gabrielson\",\n\t\"password\": \"senha123\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "grades",
+			"description": "",
+			"item": [
+				{
+					"name": "http://localhost:5000/grade/",
+					"request": {
+						"url": "http://localhost:5000/grade/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:5000/grade/",
+					"request": {
+						"url": "http://localhost:5000/grade/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"grade_name\": \"8 ano\" }"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:5000/grade/",
+					"request": {
+						"url": "http://localhost:5000/grade/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"grade_id\": 1,\n    \"grade_name\": \"9 ano - Manhã\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:5000/grade/",
+					"request": {
+						"url": {
+							"raw": "http://localhost:5000/grade/?grade_id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"grade",
+								""
+							],
+							"query": [
+								{
+									"key": "grade_id",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "students",
+			"description": "",
+			"item": [
+				{
+					"name": "http://localhost:5000/student/",
+					"request": {
+						"url": {
+							"raw": "http://localhost:5000/student/?grade_id=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"student",
+								""
+							],
+							"query": [
+								{
+									"key": "grade_id",
+									"value": "2",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:5000/student/",
+					"request": {
+						"url": "http://localhost:5000/student/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"grade_id\": 1, \"name\": \"Pedro\", \"email\": \"pedro@mail.com\", \"age\": 14 }"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:5000/student/",
+					"request": {
+						"url": "http://localhost:5000/student/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"age\": 13,\n    \"email\": \"mailmail@mail.com\",\n    \"grade_id\": 1,\n    \"name\": \"Luiz\",\n    \"student_id\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:5000/student/",
+					"request": {
+						"url": {
+							"raw": "http://localhost:5000/student/?student_id=4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"student",
+								""
+							],
+							"query": [
+								{
+									"key": "student_id",
+									"value": "4",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
