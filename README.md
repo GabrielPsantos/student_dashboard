@@ -1,6 +1,6 @@
 # Hands-on - Desenvolvimento Backend
 
-Essa aplicação gerencia o CRUD de Turmas e seus alunos
+Essa aplicação gerencia o CRUD de turmas e seus alunos
 
 ### Libs Utilizadas
 
@@ -19,7 +19,7 @@ Essa aplicação gerencia o CRUD de Turmas e seus alunos
     docker-compose exec web flask db migrate
     docker-compose exec web flask db upgrade
   
-### Testes e Cobertura
+### Testes e cobertura
 
     docker-compose exec web coverage run --source=project -m unittest discover -s tests/
 
