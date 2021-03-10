@@ -9,6 +9,7 @@ from project.model.model import Grade
 bp_grade = Blueprint('grade', __name__)
 
 
+
 @bp_grade.route("/grade/", methods=['GET'])
 @jwt_required
 def listOneAll():
