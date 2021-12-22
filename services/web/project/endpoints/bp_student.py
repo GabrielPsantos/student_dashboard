@@ -6,19 +6,19 @@ from sqlalchemy.exc import SQLAlchemyError
 from project.serializer.serializer import StudentSchema, StudentSchemaUpdate
 from project.model.model import Student
 
-bp_student = Blueprint('student', __name__)
+bp_student = Blueprint("student", __name__)
 
 
-@bp_student.route("/student/", methods=['GET'])
-@jwt_required
+@bp_student.route("/student/", methods=["GET"])
+@jwt_required()
 def listOneAll():
     sSchema = StudentSchema(many=True)
 
-    s_name = request.args.get('name')
-    s_email = request.args.get('email')
-    s_age = request.args.get('age')
-    s_grade = request.args.get('grade')
-    s_student_id = request.args.get('student_id')
+    s_name = request.args.get("name")
+    s_email = request.args.get("email")
+    s_age = request.args.get("age")
+    s_grade = request.args.get("grade")
+    s_student_id = request.args.get("student_id")
 
     if s_student_id:
         result = Student.query.filter(Student.student_id == s_student_id).all()
@@ -38,8 +38,8 @@ def listOneAll():
     return data, status
 
 
-@bp_student.route("/student/", methods=['POST'])
-@jwt_required
+@bp_student.route("/student/", methods=["POST"])
+@jwt_required()
 def create():
     sSchema = StudentSchema()
     try:
@@ -49,17 +49,17 @@ def create():
         result = sSchema.jsonify(payload)
     except SQLAlchemyError as e:
         current_app.db.session.rollback()
-        return jsonify({'error': 'Data related error'}), 500
+        return jsonify({"error": "Data related error"}), 500
     except ValidationError as e:
         return jsonify(e.messages), 422
     except Exception as e:
-        return jsonify({'error': 'Please check console output'}), 500
+        return jsonify({"error": "Please check console output"}), 500
     else:
         return result
 
 
-@bp_student.route("/student/", methods=['PUT'])
-@jwt_required
+@bp_student.route("/student/", methods=["PUT"])
+@jwt_required()
 def update():
     sSchema = StudentSchemaUpdate()
     try:
@@ -74,17 +74,17 @@ def update():
     except ValidationError as e:
         return jsonify(e.messages), 422
     except Exception as e:
-        return jsonify({'error': 'Please check console output'}), 500
+        return jsonify({"error": "Please check console output"}), 500
     else:
         return result
 
 
-@bp_student.route("/student/", methods=['DELETE'])
-@jwt_required
+@bp_student.route("/student/", methods=["DELETE"])
+@jwt_required()
 def delete():
-    s_id = request.args.get('student_id')
+    s_id = request.args.get("student_id")
     if not s_id:
-        return jsonify({'error': 'Missing Field "student_id"'}), 401
+        return jsonify({"error": 'Missing Field "student_id"'}), 401
     s_obj = Student.query.filter(Student.student_id == s_id).first()
     if not s_obj:
         return jsonify({}), 404

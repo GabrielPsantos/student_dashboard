@@ -5,10 +5,10 @@ from project.model.model import User
 from project.serializer.serializer import UserSchema
 from sqlalchemy.exc import SQLAlchemyError
 
-bp_user = Blueprint('user', __name__)
+bp_user = Blueprint("user", __name__)
 
 
-@bp_user.route('/signin', methods=['POST'])
+@bp_user.route("/signin", methods=["POST"])
 def register():
     try:
         us = UserSchema()
@@ -18,35 +18,29 @@ def register():
         current_app.db.session.commit()
     except SQLAlchemyError as e:
         print(e)
-        return jsonify({'error': 'Data related error'}), 422
+        return jsonify({"error": "Data related error"}), 422
     except Exception as e:
         return jsonify(e.messages), 422
     else:
         return us.jsonify(user), 201
 
 
-@bp_user.route('/login', methods=['POST'])
+@bp_user.route("/login", methods=["POST"])
 def login():
     try:
         user = UserSchema().load(request.json)
         user_obj = User.query.filter_by(username=user.username).first()
-        if user_obj and user_obj.verify_password(request.json['password']):
+        if user_obj and user_obj.verify_password(request.json["password"]):
             acess_token = create_access_token(
-                identity=user_obj.id,
-                expires_delta=timedelta(days=1)
+                identity=user_obj.id, expires_delta=timedelta(days=1)
             )
             refresh_token = create_refresh_token(identity=user_obj.id)
 
-            return jsonify({
-                'acess_token': acess_token,
-                'message': 'success'
-            }), 200
+            return jsonify({"acess_token": acess_token, "message": "success"}), 200
     except SQLAlchemyError as e:
         print(e)
-        return jsonify({'error': 'Data related error'}), 422
+        return jsonify({"error": "Data related error"}), 422
     except Exception as e:
         return jsonify(e.messages), 422
     else:
-        return jsonify({
-            'message': 'Wrong credentials'
-        }), 401
+        return jsonify({"message": "Wrong credentials"}), 401

@@ -11,27 +11,24 @@ class TestStudentInsert(TestFlaskBase):
         expected_grade = {
             "grade_id": 1,
             "grade_name": "8 ano",
-            "created_updated_at": datetime.now().strftime('%Y-%m-%d')
+            "created_updated_at": datetime.now().strftime("%Y-%m-%d"),
         }
 
-        response = self.client.post(url_for('grade.create'),
-                                    json=data,
-                                    headers=token)
+        response = self.client.post(url_for("grade.create"), json=data, headers=token)
         data_student = {
-            "grade_id": response.json['grade_id'],
+            "grade_id": response.json["grade_id"],
             "name": "Pedrinho",
             "email": "mail@mail.com",
-            "age": 13
+            "age": 13,
         }
 
-        response_student = self.client.post(url_for('student.create'),
-                                            json=data_student,
-                                            headers=token)
+        response_student = self.client.post(
+            url_for("student.create"), json=data_student, headers=token
+        )
 
-        data_student['created_updated_at'] = \
-            response_student.json['created_updated_at']
+        data_student["created_updated_at"] = response_student.json["created_updated_at"]
 
-        data_student['student_id'] = response_student.json['student_id']
+        data_student["student_id"] = response_student.json["student_id"]
 
         self.assertEqual(data_student, response_student.json)
 
@@ -41,14 +38,13 @@ class TestStudentInsert(TestFlaskBase):
         dado = {}
 
         expected = {
-            'age': ['Missing data for required field.'],
-            'email': ['Missing data for required field.'],
-            'grade_id': ['Missing data for required field.'],
-            'name': ['Missing data for required field.']
+            "age": ["Missing data for required field."],
+            "email": ["Missing data for required field."],
+            "grade_id": ["Missing data for required field."],
+            "name": ["Missing data for required field."],
         }
 
-        response = self.client.post(
-            url_for('student.create'), headers=token, json=dado)
+        response = self.client.post(url_for("student.create"), headers=token, json=dado)
         self.assertEqual(expected, response.json)
         self.assertEqual(response.status_code, 422)
 
@@ -59,28 +55,26 @@ class TestStudentInsert(TestFlaskBase):
         expected_grade = {
             "grade_id": 1,
             "grade_name": "8 ano",
-            "created_updated_at": datetime.now().strftime('%Y-%m-%d')
+            "created_updated_at": datetime.now().strftime("%Y-%m-%d"),
         }
 
-        response = self.client.post(url_for('grade.create'),
-                                    json=data,
-                                    headers=token)
+        response = self.client.post(url_for("grade.create"), json=data, headers=token)
         data_student = {
-            "grade_id": response.json['grade_id'],
+            "grade_id": response.json["grade_id"],
             "name": "Pedrinho",
             "email": "mail@mail.com",
-            "age": 13
+            "age": 13,
         }
 
-        response_one = self.client.post(url_for('student.create'),
-                                        json=data_student,
-                                        headers=token)
+        response_one = self.client.post(
+            url_for("student.create"), json=data_student, headers=token
+        )
 
-        response_two = self.client.post(url_for('student.create'),
-                                        json=data_student,
-                                        headers=token)
+        response_two = self.client.post(
+            url_for("student.create"), json=data_student, headers=token
+        )
 
-        expected = {'error': 'Data related error'}
+        expected = {"error": "Data related error"}
 
         self.assertEqual(expected, response_two.json)
         self.assertEqual(response_two.status_code, 500)

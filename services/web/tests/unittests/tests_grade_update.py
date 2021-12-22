@@ -9,20 +9,20 @@ class TestGradeUpdate(TestFlaskBase):
         token = self.create_token()
         estado_inicial = {"grade_name": "8 ano"}
 
-        r = self.client.post(url_for('grade.create'),
-                             headers=token,
-                             json=estado_inicial)
+        r = self.client.post(
+            url_for("grade.create"), headers=token, json=estado_inicial
+        )
 
         final_state = {
-            "grade_id": r.json['grade_id'],
+            "grade_id": r.json["grade_id"],
             "grade_name": "9 ano",
         }
 
         response = self.client.put(
-            url_for('grade.update'), json=final_state, headers=token
+            url_for("grade.update"), json=final_state, headers=token
         )
 
-        final_state['created_updated_at'] = r.json['created_updated_at']
+        final_state["created_updated_at"] = r.json["created_updated_at"]
 
         self.assertEqual(final_state, response.json)
 
@@ -35,7 +35,7 @@ class TestGradeUpdate(TestFlaskBase):
         }
 
         response = self.client.put(
-            url_for('grade.update'), json=final_state, headers=token
+            url_for("grade.update"), json=final_state, headers=token
         )
 
         self.assertEqual({}, response.json)
@@ -48,17 +48,11 @@ class TestGradeUpdate(TestFlaskBase):
 
         final_state = {"grade_name": "9 ano"}
 
-        expected = {
-            'grade_id': ['Missing data for required field.']
-        }
+        expected = {"grade_id": ["Missing data for required field."]}
 
-        self.client.post(url_for('grade.create'),
-                         json=estado_inicial,
-                         headers=token)
+        self.client.post(url_for("grade.create"), json=estado_inicial, headers=token)
 
         response = self.client.put(
-            url_for('grade.update'),
-            json=final_state,
-            headers=token
+            url_for("grade.update"), json=final_state, headers=token
         )
         self.assertEqual(expected, response.json)

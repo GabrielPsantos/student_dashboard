@@ -25,7 +25,7 @@ class UserSchema(ma.Schema):
 class GradeSchema(ma.Schema):
     class Meta:
         model = Grade
-    
+
     grade_id = fields.Integer(dump_only=True)
     grade_name = fields.Str(required=True)
     created_updated_at = fields.Date(dump_only=True)
@@ -33,6 +33,7 @@ class GradeSchema(ma.Schema):
     @post_load
     def make_grade(self, data, **kwargs):
         return Grade(**data)
+
 
 class GradeSchemaUpdate(GradeSchema):
     grade_id = fields.Integer(required=True)
@@ -42,7 +43,7 @@ class StudentSchema(ma.Schema):
     class Meta:
         model = Student
         load_instance = False
-    
+
     student_id = fields.Integer(dump_only=True)
     grade_id = fields.Integer(required=True)
     name = fields.Str(required=True)
@@ -54,6 +55,6 @@ class StudentSchema(ma.Schema):
     def make_student(self, data, **kwargs):
         return Student(**data)
 
+
 class StudentSchemaUpdate(StudentSchema):
     student_id = fields.Integer(required=True)
-
